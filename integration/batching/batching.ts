@@ -104,34 +104,26 @@ export interface EntityService {
 
 export class EntityServiceClientImpl implements EntityService {
 
-  private readonly rpc: Rpc;
+  private readonly rpc: any;
 
-  constructor(rpc: Rpc) {
+  constructor(rpc: any) {
     this.rpc = rpc;
   }
 
   BatchQuery(request: BatchQueryRequest, metadata?: Metadata): Promise<BatchQueryResponse> {
-    return new Promise((resolve=>reject)=> {;
-    this.rpc.BatchQuery(request, metadata, (err, data)=>{err? reject(err) : resolve(data)});
-    });
+    return new Promise((resolve,reject)=> { this.rpc.BatchQuery(request, metadata, (err, data)=>{err? reject(err) : resolve(data)}) });
   }
 
   BatchMapQuery(request: BatchMapQueryRequest, metadata?: Metadata): Promise<BatchMapQueryResponse> {
-    return new Promise((resolve=>reject)=> {;
-    this.rpc.BatchMapQuery(request, metadata, (err, data)=>{err? reject(err) : resolve(data)});
-    });
+    return new Promise((resolve,reject)=> { this.rpc.BatchMapQuery(request, metadata, (err, data)=>{err? reject(err) : resolve(data)}) });
   }
 
   GetOnlyMethod(request: GetOnlyMethodRequest, metadata?: Metadata): Promise<GetOnlyMethodResponse> {
-    return new Promise((resolve=>reject)=> {;
-    this.rpc.GetOnlyMethod(request, metadata, (err, data)=>{err? reject(err) : resolve(data)});
-    });
+    return new Promise((resolve,reject)=> { this.rpc.GetOnlyMethod(request, metadata, (err, data)=>{err? reject(err) : resolve(data)}) });
   }
 
   WriteMethod(request: WriteMethodRequest, metadata?: Metadata): Promise<WriteMethodResponse> {
-    return new Promise((resolve=>reject)=> {;
-    this.rpc.WriteMethod(request, metadata, (err, data)=>{err? reject(err) : resolve(data)});
-    });
+    return new Promise((resolve,reject)=> { this.rpc.WriteMethod(request, metadata, (err, data)=>{err? reject(err) : resolve(data)}) });
   }
 
 }

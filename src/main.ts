@@ -1026,12 +1026,7 @@ function generateRegularRpcMethod(
   return requestFn
     .addParameter('request', requestType(typeMap, methodDesc))
     .addParameter('metadata?', 'Metadata@grpc')
-    .addStatement('return new Promise((resolve=>reject)=> {')
-    .addStatement(
-      'this.rpc.%L(request, metadata, (err, data)=>{err? reject(err) : resolve(data)})',
-      methodDesc.name
-    )
-    .addStatement('})')
+    .addStatement('return new Promise((resolve,reject)=> { this.rpc.%L(request, metadata, (err, data)=>{err? reject(err) : resolve(data)}) })', methodDesc.name)
     .returns(responsePromise(typeMap, methodDesc));
 }
 
@@ -1051,13 +1046,12 @@ function generateServiceClientImpl(
   }
 
   // Create the constructor(rpc: Rpc)
-  const rpcType = options.useContext ? 'Rpc<Context>' : 'Rpc';
   client = client.addFunction(
     FunctionSpec.createConstructor()
-      .addParameter('rpc', rpcType)
+      .addParameter('rpc', "any")
       .addStatement('this.rpc = rpc')
   );
-  client = client.addProperty('rpc', rpcType, { modifiers: [Modifier.PRIVATE, Modifier.READONLY] });
+  client = client.addProperty('rpc', 'any', { modifiers: [Modifier.PRIVATE, Modifier.READONLY] });
 
   // Create a method for each FooService method
   for (const methodDesc of serviceDesc.method) {

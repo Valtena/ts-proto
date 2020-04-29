@@ -237,16 +237,14 @@ export interface PingService {
 
 export class PingServiceClientImpl implements PingService {
 
-  private readonly rpc: Rpc;
+  private readonly rpc: any;
 
-  constructor(rpc: Rpc) {
+  constructor(rpc: any) {
     this.rpc = rpc;
   }
 
   ping(request: PingRequest, metadata?: Metadata): Promise<PingResponse> {
-    return new Promise((resolve=>reject)=> {;
-    this.rpc.ping(request, metadata, (err, data)=>{err? reject(err) : resolve(data)});
-    });
+    return new Promise((resolve,reject)=> { this.rpc.ping(request, metadata, (err, data)=>{err? reject(err) : resolve(data)}) });
   }
 
 }
