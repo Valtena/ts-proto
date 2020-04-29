@@ -244,7 +244,7 @@ export class PingServiceClientImpl implements PingService {
   }
 
   ping(request: PingRequest, metadata?: Metadata): Promise<PingResponse> {
-    return new Promise((resolve,reject)=> { this.rpc.ping(request, metadata, (err, data)=>{err? reject(err) : resolve(data)}) });
+    return new Promise((resolve,reject)=> { this.rpc.ping(request, metadata, (err: Error, data: PingResponse)=>{err? reject(err) : resolve(data)}) });
   }
 
 }

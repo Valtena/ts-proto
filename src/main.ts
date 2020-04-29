@@ -1026,7 +1026,11 @@ function generateRegularRpcMethod(
   return requestFn
     .addParameter('request', requestType(typeMap, methodDesc))
     .addParameter('metadata?', 'Metadata@grpc')
-    .addStatement('return new Promise((resolve,reject)=> { this.rpc.%L(request, metadata, (err, data)=>{err? reject(err) : resolve(data)}) })', methodDesc.name)
+    .addStatement(
+      'return new Promise((resolve,reject)=> { this.rpc.%L(request, metadata, (err: Error, data: %L)=>{err? reject(err) : resolve(data)}) })',
+      methodDesc.name,
+      responseType(typeMap, methodDesc)
+    )
     .returns(responsePromise(typeMap, methodDesc));
 }
 

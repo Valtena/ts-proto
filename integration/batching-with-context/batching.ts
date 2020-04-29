@@ -127,7 +127,7 @@ export class EntityServiceClientImpl<Context extends DataLoaders> implements Ent
   }
 
   BatchQuery(ctx: Context, request: BatchQueryRequest, metadata?: Metadata): Promise<BatchQueryResponse> {
-    return new Promise((resolve,reject)=> { this.rpc.BatchQuery(request, metadata, (err, data)=>{err? reject(err) : resolve(data)}) });
+    return new Promise((resolve,reject)=> { this.rpc.BatchQuery(request, metadata, (err: Error, data: BatchQueryResponse)=>{err? reject(err) : resolve(data)}) });
   }
 
   GetMapQuery(ctx: Context, id: string): Promise<Entity> {
@@ -143,7 +143,7 @@ export class EntityServiceClientImpl<Context extends DataLoaders> implements Ent
   }
 
   BatchMapQuery(ctx: Context, request: BatchMapQueryRequest, metadata?: Metadata): Promise<BatchMapQueryResponse> {
-    return new Promise((resolve,reject)=> { this.rpc.BatchMapQuery(request, metadata, (err, data)=>{err? reject(err) : resolve(data)}) });
+    return new Promise((resolve,reject)=> { this.rpc.BatchMapQuery(request, metadata, (err: Error, data: BatchMapQueryResponse)=>{err? reject(err) : resolve(data)}) });
   }
 
   GetOnlyMethod(ctx: Context, request: GetOnlyMethodRequest): Promise<GetOnlyMethodResponse> {
@@ -161,7 +161,7 @@ export class EntityServiceClientImpl<Context extends DataLoaders> implements Ent
   }
 
   WriteMethod(ctx: Context, request: WriteMethodRequest, metadata?: Metadata): Promise<WriteMethodResponse> {
-    return new Promise((resolve,reject)=> { this.rpc.WriteMethod(request, metadata, (err, data)=>{err? reject(err) : resolve(data)}) });
+    return new Promise((resolve,reject)=> { this.rpc.WriteMethod(request, metadata, (err: Error, data: WriteMethodResponse)=>{err? reject(err) : resolve(data)}) });
   }
 
 }
