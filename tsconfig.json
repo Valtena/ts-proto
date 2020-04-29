@@ -11,7 +11,8 @@
     "module": "commonjs",
     "strict": true,
     "outDir": "build",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "noImplicitAny": false
   },
   "include": ["src"]
 }
