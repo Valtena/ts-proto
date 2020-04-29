@@ -127,9 +127,9 @@ export class EntityServiceClientImpl<Context extends DataLoaders> implements Ent
   }
 
   BatchQuery(ctx: Context, request: BatchQueryRequest, metadata?: Metadata): Promise<BatchQueryResponse> {
-    const data = BatchQueryRequest.encode(request).finish();
-    const promise = this.rpc.request(ctx, "batching.EntityService", "BatchQuery", data, metadata);
-    return promise.then(data => BatchQueryResponse.decode(new Reader(data)));
+    return new Promise((resolve=>reject)=> {;
+    this.rpc.BatchQuery(request, metadata, (err, data)=>{err? reject(err) : resolve(data)});
+    });
   }
 
   GetMapQuery(ctx: Context, id: string): Promise<Entity> {
@@ -145,9 +145,9 @@ export class EntityServiceClientImpl<Context extends DataLoaders> implements Ent
   }
 
   BatchMapQuery(ctx: Context, request: BatchMapQueryRequest, metadata?: Metadata): Promise<BatchMapQueryResponse> {
-    const data = BatchMapQueryRequest.encode(request).finish();
-    const promise = this.rpc.request(ctx, "batching.EntityService", "BatchMapQuery", data, metadata);
-    return promise.then(data => BatchMapQueryResponse.decode(new Reader(data)));
+    return new Promise((resolve=>reject)=> {;
+    this.rpc.BatchMapQuery(request, metadata, (err, data)=>{err? reject(err) : resolve(data)});
+    });
   }
 
   GetOnlyMethod(ctx: Context, request: GetOnlyMethodRequest): Promise<GetOnlyMethodResponse> {
@@ -165,9 +165,9 @@ export class EntityServiceClientImpl<Context extends DataLoaders> implements Ent
   }
 
   WriteMethod(ctx: Context, request: WriteMethodRequest, metadata?: Metadata): Promise<WriteMethodResponse> {
-    const data = WriteMethodRequest.encode(request).finish();
-    const promise = this.rpc.request(ctx, "batching.EntityService", "WriteMethod", data, metadata);
-    return promise.then(data => WriteMethodResponse.decode(new Reader(data)));
+    return new Promise((resolve=>reject)=> {;
+    this.rpc.WriteMethod(request, metadata, (err, data)=>{err? reject(err) : resolve(data)});
+    });
   }
 
 }

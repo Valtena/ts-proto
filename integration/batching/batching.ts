@@ -1,5 +1,5 @@
 import { Metadata } from 'grpc';
-import { Reader, Writer } from 'protobufjs/minimal';
+import { Writer, Reader } from 'protobufjs/minimal';
 
 
 export interface BatchQueryRequest {
@@ -111,27 +111,27 @@ export class EntityServiceClientImpl implements EntityService {
   }
 
   BatchQuery(request: BatchQueryRequest, metadata?: Metadata): Promise<BatchQueryResponse> {
-    const data = BatchQueryRequest.encode(request).finish();
-    const promise = this.rpc.request("batching.EntityService", "BatchQuery", data, metadata);
-    return promise.then(data => BatchQueryResponse.decode(new Reader(data)));
+    return new Promise((resolve=>reject)=> {;
+    this.rpc.BatchQuery(request, metadata, (err, data)=>{err? reject(err) : resolve(data)});
+    });
   }
 
   BatchMapQuery(request: BatchMapQueryRequest, metadata?: Metadata): Promise<BatchMapQueryResponse> {
-    const data = BatchMapQueryRequest.encode(request).finish();
-    const promise = this.rpc.request("batching.EntityService", "BatchMapQuery", data, metadata);
-    return promise.then(data => BatchMapQueryResponse.decode(new Reader(data)));
+    return new Promise((resolve=>reject)=> {;
+    this.rpc.BatchMapQuery(request, metadata, (err, data)=>{err? reject(err) : resolve(data)});
+    });
   }
 
   GetOnlyMethod(request: GetOnlyMethodRequest, metadata?: Metadata): Promise<GetOnlyMethodResponse> {
-    const data = GetOnlyMethodRequest.encode(request).finish();
-    const promise = this.rpc.request("batching.EntityService", "GetOnlyMethod", data, metadata);
-    return promise.then(data => GetOnlyMethodResponse.decode(new Reader(data)));
+    return new Promise((resolve=>reject)=> {;
+    this.rpc.GetOnlyMethod(request, metadata, (err, data)=>{err? reject(err) : resolve(data)});
+    });
   }
 
   WriteMethod(request: WriteMethodRequest, metadata?: Metadata): Promise<WriteMethodResponse> {
-    const data = WriteMethodRequest.encode(request).finish();
-    const promise = this.rpc.request("batching.EntityService", "WriteMethod", data, metadata);
-    return promise.then(data => WriteMethodResponse.decode(new Reader(data)));
+    return new Promise((resolve=>reject)=> {;
+    this.rpc.WriteMethod(request, metadata, (err, data)=>{err? reject(err) : resolve(data)});
+    });
   }
 
 }

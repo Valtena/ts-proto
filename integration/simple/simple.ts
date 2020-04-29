@@ -3,9 +3,9 @@
 //
 import { ImportedThing } from './import_dir/thing';
 import { Metadata } from 'grpc';
-import { Reader, Writer } from 'protobufjs/minimal';
 import { Timestamp } from './google/protobuf/timestamp';
 import * as Long from 'long';
+import { Writer, Reader } from 'protobufjs/minimal';
 import { StringValue, Int32Value, BoolValue } from './google/protobuf/wrappers';
 
 
@@ -252,9 +252,9 @@ export class PingServiceClientImpl implements PingService {
   }
 
   ping(request: PingRequest, metadata?: Metadata): Promise<PingResponse> {
-    const data = PingRequest.encode(request).finish();
-    const promise = this.rpc.request("simple.PingService", "ping", data, metadata);
-    return promise.then(data => PingResponse.decode(new Reader(data)));
+    return new Promise((resolve=>reject)=> {;
+    this.rpc.ping(request, metadata, (err, data)=>{err? reject(err) : resolve(data)});
+    });
   }
 
 }

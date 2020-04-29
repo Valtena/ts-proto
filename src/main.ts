@@ -1026,21 +1026,12 @@ function generateRegularRpcMethod(
   return requestFn
     .addParameter('request', requestType(typeMap, methodDesc))
     .addParameter('metadata?', 'Metadata@grpc')
-    .addStatement('const data = %L.encode(request).finish()', requestType(typeMap, methodDesc))
+    .addStatement('return new Promise((resolve=>reject)=> {')
     .addStatement(
-      'const promise = this.rpc.request(%L"%L.%L", %S, %L, %L)',
-      options.useContext ? 'ctx, ' : '', // sneak ctx in as the 1st parameter to our rpc call
-      fileDesc.package,
-      serviceDesc.name,
-      methodDesc.name,
-      'data',
-      'metadata'
+      'this.rpc.%L(request, metadata, (err, data)=>{err? reject(err) : resolve(data)})',
+      methodDesc.name
     )
-    .addStatement(
-      'return promise.then(data => %L.decode(new %T(data)))',
-      responseType(typeMap, methodDesc),
-      'Reader@protobufjs/minimal'
-    )
+    .addStatement('})')
     .returns(responsePromise(typeMap, methodDesc));
 }
 
