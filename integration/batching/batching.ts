@@ -1,3 +1,4 @@
+import { Metadata } from 'grpc';
 import { Reader, Writer } from 'protobufjs/minimal';
 
 
@@ -85,19 +86,19 @@ const baseEntity: object = {
 
 export interface EntityService {
 
-  BatchQuery(request: BatchQueryRequest): Promise<BatchQueryResponse>;
+  BatchQuery(request: BatchQueryRequest, metadata?: Metadata): Promise<BatchQueryResponse>;
 
-  BatchMapQuery(request: BatchMapQueryRequest): Promise<BatchMapQueryResponse>;
+  BatchMapQuery(request: BatchMapQueryRequest, metadata?: Metadata): Promise<BatchMapQueryResponse>;
 
   /**
    *  Add a method that is not batchable to show it's still cached
    */
-  GetOnlyMethod(request: GetOnlyMethodRequest): Promise<GetOnlyMethodResponse>;
+  GetOnlyMethod(request: GetOnlyMethodRequest, metadata?: Metadata): Promise<GetOnlyMethodResponse>;
 
   /**
    *  Add a method that won't get cached
    */
-  WriteMethod(request: WriteMethodRequest): Promise<WriteMethodResponse>;
+  WriteMethod(request: WriteMethodRequest, metadata?: Metadata): Promise<WriteMethodResponse>;
 
 }
 
@@ -109,27 +110,27 @@ export class EntityServiceClientImpl implements EntityService {
     this.rpc = rpc;
   }
 
-  BatchQuery(request: BatchQueryRequest): Promise<BatchQueryResponse> {
+  BatchQuery(request: BatchQueryRequest, metadata?: Metadata): Promise<BatchQueryResponse> {
     const data = BatchQueryRequest.encode(request).finish();
-    const promise = this.rpc.request("batching.EntityService", "BatchQuery", data);
+    const promise = this.rpc.request("batching.EntityService", "BatchQuery", data, metadata);
     return promise.then(data => BatchQueryResponse.decode(new Reader(data)));
   }
 
-  BatchMapQuery(request: BatchMapQueryRequest): Promise<BatchMapQueryResponse> {
+  BatchMapQuery(request: BatchMapQueryRequest, metadata?: Metadata): Promise<BatchMapQueryResponse> {
     const data = BatchMapQueryRequest.encode(request).finish();
-    const promise = this.rpc.request("batching.EntityService", "BatchMapQuery", data);
+    const promise = this.rpc.request("batching.EntityService", "BatchMapQuery", data, metadata);
     return promise.then(data => BatchMapQueryResponse.decode(new Reader(data)));
   }
 
-  GetOnlyMethod(request: GetOnlyMethodRequest): Promise<GetOnlyMethodResponse> {
+  GetOnlyMethod(request: GetOnlyMethodRequest, metadata?: Metadata): Promise<GetOnlyMethodResponse> {
     const data = GetOnlyMethodRequest.encode(request).finish();
-    const promise = this.rpc.request("batching.EntityService", "GetOnlyMethod", data);
+    const promise = this.rpc.request("batching.EntityService", "GetOnlyMethod", data, metadata);
     return promise.then(data => GetOnlyMethodResponse.decode(new Reader(data)));
   }
 
-  WriteMethod(request: WriteMethodRequest): Promise<WriteMethodResponse> {
+  WriteMethod(request: WriteMethodRequest, metadata?: Metadata): Promise<WriteMethodResponse> {
     const data = WriteMethodRequest.encode(request).finish();
-    const promise = this.rpc.request("batching.EntityService", "WriteMethod", data);
+    const promise = this.rpc.request("batching.EntityService", "WriteMethod", data, metadata);
     return promise.then(data => WriteMethodResponse.decode(new Reader(data)));
   }
 
@@ -137,7 +138,7 @@ export class EntityServiceClientImpl implements EntityService {
 
 interface Rpc {
 
-  request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;
+  request(service: string, method: string, data: Uint8Array, metadata?: Metadata): Promise<Uint8Array>;
 
 }
 

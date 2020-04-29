@@ -975,6 +975,7 @@ function generateService(
     maybeAddComment(info, text => (requestFn = requestFn.addJavadoc(text)));
 
     requestFn = requestFn.addParameter('request', requestType(typeMap, methodDesc));
+    requestFn = requestFn.addParameter('metadata?', "Metadata@grpc");
     requestFn = requestFn.returns(responsePromise(typeMap, methodDesc));
     service = service.addFunction(requestFn);
 
@@ -1024,14 +1025,16 @@ function generateRegularRpcMethod(
   }
   return requestFn
     .addParameter('request', requestType(typeMap, methodDesc))
+    .addParameter('metadata?', 'Metadata@grpc')
     .addStatement('const data = %L.encode(request).finish()', requestType(typeMap, methodDesc))
     .addStatement(
-      'const promise = this.rpc.request(%L"%L.%L", %S, %L)',
+      'const promise = this.rpc.request(%L"%L.%L", %S, %L, %L)',
       options.useContext ? 'ctx, ' : '', // sneak ctx in as the 1st parameter to our rpc call
       fileDesc.package,
       serviceDesc.name,
       methodDesc.name,
-      'data'
+      'data',
+      'metadata'
     )
     .addStatement(
       'return promise.then(data => %L.decode(new %T(data)))',
@@ -1226,6 +1229,7 @@ function generateRpcType(options: Options): InterfaceSpec {
     .addParameter('service', TypeNames.STRING)
     .addParameter('method', TypeNames.STRING)
     .addParameter('data', data)
+    .addParameter('metadata?', 'Metadata@grpc')
     .returns(TypeNames.PROMISE.param(data));
   let rpc = InterfaceSpec.create('Rpc');
   if (options.useContext) {

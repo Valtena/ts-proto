@@ -6,18 +6,23 @@
 #
 
 # simple/
-yarn pbjs --force-message --force-number -t static-module -o integration/simple/pbjs.js integration/simple/simple.proto
-yarn pbts --no-comments -o integration/simple/pbjs.d.ts integration/simple/pbjs.js
-
-# simple-long
-yarn pbjs --force-message --force-long -t static-module -o integration/simple-long/pbjs.js integration/simple-long/simple.proto
-yarn pbts --no-comments -o integration/simple-long/pbjs.d.ts integration/simple-long/pbjs.js
-
-# simple-long-string
-yarn pbjs --force-message --force-long -t static-module -o integration/simple-long-string/pbjs.js integration/simple-long-string/simple.proto
-yarn pbts --no-comments -o integration/simple-long-string/pbjs.d.ts integration/simple-long-string/pbjs.js
+#yarn pbjs --force-message --force-number -t static-module -o integration/simple/pbjs.js integration/simple/simple.proto
+#yarn pbts --no-comments -o integration/simple/pbjs.d.ts integration/simple/pbjs.js
+#
+## simple-long
+#yarn pbjs --force-message --force-long -t static-module -o integration/simple-long/pbjs.js integration/simple-long/simple.proto
+#yarn pbts --no-comments -o integration/simple-long/pbjs.d.ts integration/simple-long/pbjs.js
+#
+## simple-long-string
+#yarn pbjs --force-message --force-long -t static-module -o integration/simple-long-string/pbjs.js integration/simple-long-string/simple.proto
+#yarn pbts --no-comments -o integration/simple-long-string/pbjs.d.ts integration/simple-long-string/pbjs.js
+#
+## vector-tile/
+#yarn pbjs --force-message --force-number -t static-module -o integration/vector-tile/pbjs.js integration/vector-tile/vector_tile.proto
+#yarn pbts --no-comments -o integration/vector-tile/pbjs.d.ts integration/vector-tile/pbjs.js
 
 # vector-tile/
-yarn pbjs --force-message --force-number -t static-module -o integration/vector-tile/pbjs.js integration/vector-tile/vector_tile.proto
-yarn pbts --no-comments -o integration/vector-tile/pbjs.d.ts integration/vector-tile/pbjs.js
+#yarn pbjs --force-message --ts_proto_opt=context=true --force-number -t static-module -o integration/simple-snake/pbjs.js integration/simple-snake/simple.proto
+#yarn pbts --no-comments --ts_proto_opt=context=true -o integration/simple-snake/pbjs.d.ts integration/simple-snake/pbjs.js
 
+protoc --proto_path=. --plugin=./build/plugin.js --ts_proto_out="." integration/simple-snake/simple.proto && echo ""
